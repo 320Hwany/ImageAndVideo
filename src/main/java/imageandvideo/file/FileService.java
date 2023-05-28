@@ -1,4 +1,4 @@
-package imageandvideo.image;
+package imageandvideo.file;
 
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -11,43 +11,43 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static imageandvideo.image.CommonConstant.STORAGE_ADDRESS;
+import static imageandvideo.file.CommonConstant.STORAGE_ADDRESS;
 
 @Service
-public class ImageService {
+public class FileService {
 
-    public void imageUploadOnServer(MultipartFile uploadImg) {
-        String fullPath = STORAGE_ADDRESS + uploadImg.getOriginalFilename();
+    public void fileUploadOnServer(MultipartFile uploadFile) {
+        String fullPath = STORAGE_ADDRESS + uploadFile.getOriginalFilename();
         try {
-            uploadImg.transferTo(new File(fullPath));
+            uploadFile.transferTo(new File(fullPath));
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }
     }
 
-    public void imagesUploadOnServer(MultipartFile[] uploadImgs) {
-        for (MultipartFile uploadImg : uploadImgs) {
-            String fullPath = STORAGE_ADDRESS + uploadImg.getOriginalFilename();
+    public void filesUploadOnServer(MultipartFile[] uploadFiles) {
+        for (MultipartFile uploadFile : uploadFiles) {
+            String fullPath = STORAGE_ADDRESS + uploadFile.getOriginalFilename();
             try {
-                uploadImg.transferTo(new File(fullPath));
+                uploadFile.transferTo(new File(fullPath));
             } catch (IOException e) {
                 throw new IllegalArgumentException();
             }
         }
     }
 
-    public UrlResource getImageFromServer(String imgName) {
+    public UrlResource getFileFromServer(String fileName) {
         try {
-            return new UrlResource("file:" + STORAGE_ADDRESS + imgName);
+            return new UrlResource("file:" + STORAGE_ADDRESS + fileName);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException();
         }
     }
 
-    public MediaType getMediaType(String imgName) {
+    public MediaType getMediaType(String fileName) {
         try {
             return MediaType.parseMediaType(
-                    Files.probeContentType(Paths.get("file:" + STORAGE_ADDRESS + imgName)));
+                    Files.probeContentType(Paths.get("file:" + STORAGE_ADDRESS + fileName)));
         } catch (IOException e) {
             throw new IllegalArgumentException();
         }

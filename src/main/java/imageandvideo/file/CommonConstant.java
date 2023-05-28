@@ -1,4 +1,4 @@
-package imageandvideo.image;
+package imageandvideo.file;
 
 import lombok.Getter;
 
