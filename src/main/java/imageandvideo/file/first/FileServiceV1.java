@@ -1,4 +1,4 @@
-package imageandvideo.file;
+package imageandvideo.file.first;
 
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 import static imageandvideo.file.CommonConstant.STORAGE_ADDRESS;
 
 @Service
-public class FileService {
+public class FileServiceV1 {
 
-    public void fileUploadOnServer(MultipartFile uploadFile) {
+    public void fileUploadOnServer(final MultipartFile uploadFile) {
         String fullPath = STORAGE_ADDRESS + uploadFile.getOriginalFilename();
         try {
             uploadFile.transferTo(new File(fullPath));
@@ -25,7 +25,7 @@ public class FileService {
         }
     }
 
-    public void filesUploadOnServer(MultipartFile[] uploadFiles) {
+    public void filesUploadOnServer(final MultipartFile[] uploadFiles) {
         for (MultipartFile uploadFile : uploadFiles) {
             String fullPath = STORAGE_ADDRESS + uploadFile.getOriginalFilename();
             try {
@@ -36,7 +36,7 @@ public class FileService {
         }
     }
 
-    public UrlResource getFileFromServer(String fileName) {
+    public UrlResource getFileFromServer(final String fileName) {
         try {
             return new UrlResource("file:" + STORAGE_ADDRESS + fileName);
         } catch (MalformedURLException e) {
@@ -44,7 +44,7 @@ public class FileService {
         }
     }
 
-    public MediaType getMediaType(String fileName) {
+    public MediaType getMediaType(final String fileName) {
         try {
             return MediaType.parseMediaType(
                     Files.probeContentType(Paths.get("file:" + STORAGE_ADDRESS + fileName)));
